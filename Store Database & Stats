@@ -1,0 +1,33 @@
+--Create a store database
+
+CREATE TABLE ReeDream (id INTEGER PRIMARY KEY, item TEXT, quantity INTEGER, material TEXT, color TEXT, price INTEGER);
+
+INSERT INTO ReeDream VALUES
+(1, "mattress", 5, "memory foam", "cream", 525.99),
+(2, "pillow", 20, "goose down", "beige", 24.99),
+(3, "pillowcase", 35, "satin", "maroon", 15.99),
+(4, "pillowcase", 35, "satin", "gold", 14.99),
+(5, "pillowcase", 35, "satin", "green", 13.99),
+(6, "pillowcase", 35, "satin", "silver", 14.99),
+(7, "pillowcase", 35, "satin", "yellow", 12.99),
+(8, "pillowcase", 35, "satin", "onyx", 12.99),
+(9, "pillowcase", 35, "satin", "blue", 13.99),
+(10, "pillowcase", 35, "satin", "bronze", 11.99),
+(11, "blanket", 15, "polyester", "gryffindor red", 17.99),
+(12, "blanket", 15, "polyester", "slytherin green", 17.99),
+(13, "blanket", 15, "polyester", "hufflepuff yellow", 17.99),
+(14, "blanket", 15, "polyester", "ravenclaw blue", 17.99),
+(15, "tapestry", 10, "wool", "hogwarts emblem", 29.99);
+
+--display database ordered by price
+SELECT * FROM ReeDream 
+ORDER BY price ASC;
+
+--what is the gross price of all items in store?
+SELECT SUM(price*quantity) 
+FROM ReeDream;
+
+--what is the avg price of a pillowcase? 
+SELECT AVG(price) "avg pillowcase price"
+FROM ReeDream
+WHERE item='pillowcase'; 
