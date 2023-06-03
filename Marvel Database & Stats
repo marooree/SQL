@@ -49,7 +49,7 @@ INSERT INTO marvels VALUES(26, "Professor X", 58, "Good", "Male", 1.83, 86, "EUA
 
 
 /*What is the average intelligence of all characters?*/
-SELECT ROUND(AVG(intelligence)) AS avg_smarts, MAX(intelligence) as smarts_max 
+SELECT ROUND(AVG(intelligence)) AS avg_smarts, MAX(intelligence) as max_smarts 
 FROM marvels;
 
 /*Which character is the most powerful?*/
@@ -78,5 +78,5 @@ GROUP BY the_faves;
 
 /*Who could be American heroes' allies?*/
 SELECT name FROM marvels 
-WHERE (alignment="Good" OR alignment="Neutral") AND NOT (hometown ="USA") 
+WHERE (alignment="Good" OR alignment="Neutral") AND NOT (hometown="USA") 
 ORDER BY name;
