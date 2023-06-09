@@ -1,0 +1,48 @@
+/* Create table about the people and what they do here */
+CREATE TABLE famous (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT, 
+    career TEXT,
+    art TEXT   );
+ 
+INSERT INTO famous (fullname, career, art) VALUES
+    ("Margot Robbie", "actress", "movies"),
+    ("Halle Bailey", "singer", "songs"),
+    ("Paul Rudd", "actor", "movies"),
+    ("Michael B Jordan", "actor", "movies"),
+    ("Jenna Ortega", "actress", "movies"),
+    ("Yara Shahidi", "actress", "movies"),
+    ("Cillian Murphy", "actor", "movies"),
+    ("Abel Tesfaye", "singer", "songs"),
+    ("Miles Morales", "character", "movies"),
+    ("Tedros", "character", "television"),
+    ("Hercule Poirot", "character", "movies"),
+    ("Prince Harry", "author", "books");
+    
+CREATE TABLE work (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    genre TEXT,
+    fame_id INTEGER    );
+
+INSERT INTO work (name, genre, fame_id) VALUES
+    ("Barbie", "drama", 1),
+    ("The Little Mermaid", "family", 2),
+    ("Quantumania", "family", 3),
+    ("Creed III", "drama", 4),
+    ("Scream IV", "horror", 5),
+    ("Peter Pan", "family", 6),
+    ("Oppenheimer", "biopic", 7),
+    ("Popular", "pop", 8),
+    ("Across the Spiderverse", "drama", 9),
+    ("The Idol", "drama", 10),
+    ("A Haunting in Venice", "horror", 11),
+    ("Spare", "nonfiction", 12);
+
+
+/*What movies were actors in this year?*/
+SELECT f.fullname, w.name
+FROM famous f
+LEFT JOIN work w
+ON f.id = w.fame_id
+WHERE (f.career = "actress" OR f.career = "actor");
