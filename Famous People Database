@@ -63,7 +63,7 @@ WHERE (f.career = "actress" OR f.career = "actor")
 ORDER BY movie;
 
 /*How many movies of each genre?*/
-SELECT w.genre, COUNT(*) AS num_movies, w.distributor
+SELECT w.genre, COUNT(*) AS num_movies, w.distributor as network
 FROM famous f
 JOIN work w
 ON f.id = w.fame_id
