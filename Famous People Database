@@ -59,7 +59,7 @@ SELECT f.fullname as name, w.title as movie
 FROM famous f
 LEFT JOIN work w
 ON f.id = w.fame_id
-WHERE (f.career = "actress" OR f.career = "actor")
+WHERE (f.career = "actress" OR f.career = "actor") AND (f.art = "movies")
 ORDER BY movie;
 
 /*How many movies of each genre?*/
