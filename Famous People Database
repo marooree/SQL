@@ -7,42 +7,73 @@ CREATE TABLE famous (
  
 INSERT INTO famous (fullname, career, art) VALUES
     ("Margot Robbie", "actress", "movies"),
-    ("Halle Bailey", "singer", "songs"),
+    ("Halle Bailey", "actress", "songs"),
     ("Paul Rudd", "actor", "movies"),
     ("Michael B Jordan", "actor", "movies"),
     ("Jenna Ortega", "actress", "movies"),
     ("Yara Shahidi", "actress", "movies"),
     ("Cillian Murphy", "actor", "movies"),
     ("Abel Tesfaye", "singer", "songs"),
+    ("Wednesday Addams", "character", "television"),
     ("Miles Morales", "character", "movies"),
     ("Tedros", "character", "television"),
     ("Hercule Poirot", "character", "movies"),
-    ("Prince Harry", "author", "books");
+    ("Prince Harry", "author", "books"),
+    ("Holly Black", "author", "books"),
+    ("Dom Terreto", "character", "movies"),
+    ("Kendall Roy", "character", "television"),
+    ("Pedro Pascal", "actor", "television"),
+    ("Steven Yeun", "actor", "television"),
+    ("Quinta Brunson", "writer", "television");
     
 CREATE TABLE work (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
+    title TEXT,
     genre TEXT,
-    fame_id INTEGER    );
+    fame_id INTEGER,
+    network TEXT);
 
-INSERT INTO work (name, genre, fame_id) VALUES
-    ("Barbie", "drama", 1),
-    ("The Little Mermaid", "family", 2),
-    ("Quantumania", "family", 3),
-    ("Creed III", "drama", 4),
-    ("Scream IV", "horror", 5),
-    ("Peter Pan", "family", 6),
-    ("Oppenheimer", "biopic", 7),
-    ("Popular", "pop", 8),
-    ("Across the Spiderverse", "drama", 9),
-    ("The Idol", "drama", 10),
-    ("A Haunting in Venice", "horror", 11),
-    ("Spare", "nonfiction", 12);
-
+INSERT INTO work (title, genre, fame_id, network) VALUES
+    ("Barbie", "drama", 1, NULL),
+    ("The Little Mermaid", "family", 2, NULL),
+    ("Quantumania", "family", 3, NULL),
+    ("Creed III", "drama", 4, NULL),
+    ("Scream IV", "horror", 5, NULL),
+    ("Peter Pan", "family", 6, NULL),
+    ("Oppenheimer", "biopic", 7, NULL),
+    ("Popular", "pop", 8, NULL),
+    ("Wednesday", "horror", 9, "Netflix"),
+    ("Across the Spiderverse", "drama", 10, NULL),
+    ("The Idol", "drama", 11, "HBO"),
+    ("A Haunting in Venice", "horror", 12, NULL),
+    ("Spare", "nonfiction", 13, NULL),
+    ("The Stolen Heir", "fantasy", 14, NULL),
+    ("Fast X", "drama", 15, NULL),
+    ("Succession", "dark comedy", 16, "HBO"),
+    ("The Last of Us", "drama", 17, "HBO"),
+    ("Beef", "dark comedy", 18, "Netflix"),
+    ("Abbott Elementary", "mockumentary", 19, "Hulu");
 
 /*What movies were actors in this year?*/
-SELECT f.fullname, w.name
+SELECT f.fullname as name, w.title as movie
 FROM famous f
 LEFT JOIN work w
 ON f.id = w.fame_id
-WHERE (f.career = "actress" OR f.career = "actor");
+WHERE (f.career = "actress" OR f.career = "actor")
+ORDER BY movie;
+
+/*How many movies of each genre?*/
+SELECT w.genre, COUNT(*) AS num_movies
+FROM famous f
+JOIN work w
+ON f.id = w.fame_id
+WHERE f.art = "movies"
+GROUP BY w.genre ORDER BY num_movies desc;
+
+/*Get all related info on TV in database*/
+SELECT f.fullname, f.career, w.title, w.genre, w.network
+FROM famous f
+LEFT JOIN work w
+ON f.id = w.fame_id
+WHERE f.art = "television"
+ORDER BY f.career;
