@@ -48,15 +48,17 @@ INSERT INTO marvels VALUES(25, "Juggernaut", 76, "Neutral", "Male", 2.87, 862, "
 INSERT INTO marvels VALUES(26, "Professor X", 58, "Good", "Male", 1.83, 86, "EUA", 5, 2, 2, 2, 5, 3);
 
 
-/*What is the average intelligence of all characters?*/
+/*What is the average intelligence of all characters? Show the highest intelligence to compare.*/
 SELECT ROUND(AVG(intelligence)) AS avg_smarts, MAX(intelligence) as max_smarts 
 FROM marvels;
 
 /*Which character is the most powerful?*/
+-- Power being a sum of strength, speed, and fighting skills
 SELECT name, gender, MAX(strength+speed+fighting_Skills) AS power 
 FROM marvels;
 
 /*Which character is the slowest?*/
+-- Slow meaning a combo of speed and intelligence
 SELECT name, MIN(intelligence+speed) AS wit 
 FROM marvels;
 
