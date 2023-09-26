@@ -55,7 +55,7 @@ INSERT INTO work (title, genre, fame_id, distributor) VALUES
     ("Abbott Elementary", "mockumentary", 19, "Hulu");
 
 /*What movies were actors in this year?*/
-SELECT f.fullname as name, w.title as movie
+SELECT w.title as movie, f.fullname as name
 FROM famous f
 LEFT JOIN work w
 ON f.id = w.fame_id
