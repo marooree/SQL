@@ -1,0 +1,86 @@
+/*For this project, I downloaded Spotify data from Kaggle.
+Then I created a table to insert Spotify data into.
+Finally, I performed my own, unique analytics on the data using SQL. */
+
+-- Creating the Table
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+
+/*After inserting this data into SQLiteStudio, I explored the data with the following queries.*/
+
+-- 1. Show the 10 most popular songs and their arists
+SELECT track_name, artist_name, popularity
+FROM Spotifydata
+WHERE popularity >= 90
+ORDER BY popularity DESC
+LIMIT 10;
+
+-- 2. What is the average danceability of all songs (to the nearest thousandth)?                        <--- AGGREGATE FUNCTIONS
+SELECT ROUND(AVG(danceability),3) 
+FROM Spotifydata;
+
+-- 3. What are the danceability and energy of only fast-paced songs (tempo of at least 120)?
+SELECT track_name, danceability, energy, round(tempo)
+FROM Spotifydata
+WHERE tempo >= 120
+ORDER BY tempo desc;
+
+-- 4. Return the shortest and longest song in the data, along w artist                        <--- SUBQUERIES, AGGREGATE FUNCTIONS, OPERATORS
+SELECT track_name, artist_name, duration_ms
+FROM Spotifydata
+WHERE duration_ms IN ((SELECT min(duration_ms) FROM Spotifydata), (SELECT max(duration_ms) FROM Spotifydata));
+
+-- 5. Convert the shortest and longest songs' ms duration to minutes, and find their popularity                        <--- SUBQUERIES, AGGREGATE FUNCTIONS, OPERATORS
+SELECT track_name, popularity, round(duration_ms/60000.0,2) AS duration_mins
+FROM Spotifydata
+WHERE duration_ms IN ((SELECT min(duration_ms) FROM Spotifydata), (SELECT max(duration_ms) FROM Spotifydata));
+
+-- 6. How many songs have generally a positive mood?                        <--- AGGREGATE FUNCTIONS
+SELECT count(track_name) as numTracks
+FROM Spotifydata
+WHERE valence >= 0.5;
+
+-- 7. How many of the popular songs are generally negative?                        <--- AGGREGATE FUNCTIONS
+SELECT count(track_name) as negative_tracks
+FROM Spotifydata
+WHERE valence < 0.5
+AND popularity >= 90;
+
+-- 8. Which are those songs and each one's valence?                        <--- OPERATORS
+SELECT track_name, round(valence, 2) as valence
+FROM Spotifydata
+WHERE valence < 0.5
+AND popularity >= 90
+ORDER BY valence desc;
+
+-- 9. What mode were each of the 10 most popular songs in?
+SELECT track_name, artist_name, song_mode
+FROM Spotifydata
+WHERE popularity >= 90
+ORDER BY popularity DESC
+LIMIT 10;
+
+--10. Count the number of artists who have more than one song within this dataset. Who are they and how many songs made it in?                        <--- AGGREGATE FUNCTIONS, AGGREGATE CLAUSE
+SELECT artist_name, COUNT(artist_name) as numOfSongs
+FROM Spotifydata
+GROUP BY artist_name
+HAVING numOfSongs > 1
+ORDER BY numOfSongs desc;
